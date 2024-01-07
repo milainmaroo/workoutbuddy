@@ -24,6 +24,4 @@ router.delete('/:id', deleteWorkout)
 // UPDATE a workout
 router.patch('/:id', updateWorkout)
 
-router.get('/', () => {})
-
 module.exports = router
