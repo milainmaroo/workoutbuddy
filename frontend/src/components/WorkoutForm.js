@@ -1,13 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useWorkoutsContext from '../hooks/useWorkoutsContext'
 
 const WorkoutForm = () => {
   const { dispatch } = useWorkoutsContext()
+  const [workoutId, setWorkoutId] = useState(null)
   const [title, setTitle] = useState('')
   const [load, setLoad] = useState('')
   const [reps, setReps] = useState('')
   const [error, setError] = useState(null)
   const [emptyFields, setEmptyFields] = useState([])
+
+  useEffect(() => {
+    const fetchWorkout = async () => {
+      const response = await fetch('/api/workouts/' + workoutId)
+      const json = await response.json()
+
+      if (response.ok) {
+        setWorkoutId(json.workoutId)
+        setTitle(json.title)
+        setLoad(json.load)
+        setReps(json.reps)
+      }
+    }
+
+    fetchWorkout()
+  }, [workoutId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()

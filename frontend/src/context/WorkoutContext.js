@@ -18,6 +18,25 @@ export const workoutsReducer = (state, action) => {
           (workout) => workout._id !== action.payload._id
         ),
       }
+    case 'UPDATE_WORKOUT':
+      // return {
+      //   workouts: state.workouts.map((workout) =>
+      //     workout._id === action.payload._id ? action.payload : state
+      //   ),
+      // }
+      const updatedIndex = state.workouts.findIndex(
+        (workout) => workout._id === action.payload._id
+      )
+
+      if (updatedIndex !== -1) {
+        const updatedWorkouts = [...state.workouts]
+        updatedWorkouts[updatedIndex] = action.payload
+        return {
+          workouts: updatedWorkouts,
+        }
+      } else {
+        return state
+      }
     default:
       return state
   }
