@@ -6,6 +6,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext()
+  const [updatedWorkout, setUpdatedWorkout] = useState({})
   const [title, setTitle] = useState('')
   const [load, setLoad] = useState('')
   const [reps, setReps] = useState('')
@@ -13,7 +14,7 @@ const WorkoutDetails = ({ workout }) => {
   const handleUpdate = async () => {
     const updatedWorkout = { title, load, reps }
 
-    const response = await fetch('/api/workouts/' + workout._id, {
+    const response = await fetch('/api/workouts/' + updatedWorkout._id, {
       method: 'PATCH',
       body: JSON.stringify(updatedWorkout),
       headers: {
@@ -58,7 +59,10 @@ const WorkoutDetails = ({ workout }) => {
       </div>
 
       <div className='workout-btns'>
-        <p className='material-symbols-outlined' onClick={handleUpdate}>
+        <p
+          className='material-symbols-outlined'
+          onClick={() => handleUpdate(workout)}
+        >
           edit
         </p>
         <p className='material-symbols-outlined' onClick={handleDelete}>

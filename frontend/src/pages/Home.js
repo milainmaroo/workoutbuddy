@@ -7,7 +7,7 @@ import WorkoutForm from '../components/WorkoutForm'
 
 const Home = () => {
   const { workouts, dispatch } = useWorkoutsContext()
-  console.log(workouts)
+  //console.log(workouts)
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -30,7 +30,7 @@ const Home = () => {
             return <WorkoutDetails key={workout._id} workout={workout} />
           })}
       </div>
-      <WorkoutForm />
+      <WorkoutForm workouts={workouts} />
     </div>
   )
 }
