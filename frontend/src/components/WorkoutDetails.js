@@ -1,41 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import useWorkoutsContext from '../hooks/useWorkoutsContext'
-
-// date fns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const WorkoutDetails = ({ workout }) => {
-  const { dispatch } = useWorkoutsContext()
-  const [updatedWorkout, setUpdatedWorkout] = useState({})
-  const [title, setTitle] = useState('')
-  const [load, setLoad] = useState('')
-  const [reps, setReps] = useState('')
-
-  const handleUpdate = async () => {
-    const updatedWorkout = { title, load, reps }
-
-    const response = await fetch('/api/workouts/' + updatedWorkout._id, {
-      method: 'PATCH',
-      body: JSON.stringify(updatedWorkout),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    const json = await response.json()
-
-    if (response.ok) {
-      dispatch({ type: 'UPDATE_WORKOUT', payload: json })
-    }
-  }
+  const { setWorkouts, setEditWorkoutData } = useWorkoutsContext()
 
   const handleDelete = async () => {
-    const response = await fetch('/api/workouts/' + workout._id, {
-      method: 'DELETE',
-    })
-    const json = await response.json()
-
-    if (response.ok) {
-      dispatch({ type: 'DELETE_WORKOUT', payload: json })
+    try {
+      const response = await fetch('/api/workouts/' + workout._id, {
+        method: 'DELETE',
+      })
+      if (response.ok) {
+        const response = await fetch('/api/workouts')
+        const json = await response.json()
+        setWorkouts(json)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -61,7 +42,9 @@ const WorkoutDetails = ({ workout }) => {
       <div className='workout-btns'>
         <p
           className='material-symbols-outlined'
-          onClick={() => handleUpdate(workout)}
+          onClick={() => {
+            setEditWorkoutData(workout)
+          }}
         >
           edit
         </p>
