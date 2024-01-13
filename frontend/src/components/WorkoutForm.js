@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import useWorkoutsContext from '../hooks/useWorkoutsContext'
+import { useContext } from 'react'
+import { WorkoutsContext } from '../context/WorkoutContext'
 
 const WorkoutForm = () => {
   const { editWorkoutData, setWorkouts, setEditWorkoutData } =
-    useWorkoutsContext()
+    useContext(WorkoutsContext)
   const [title, setTitle] = useState('')
   const [load, setLoad] = useState('')
   const [reps, setReps] = useState('')
+  const [error, setError] = useState(null)
+  const [emptyFields, setEmptyFields] = useState([])
 
   useEffect(() => {
     if (editWorkoutData) {
@@ -19,9 +22,6 @@ const WorkoutForm = () => {
       setReps('')
     }
   }, [editWorkoutData])
-
-  const [error, setError] = useState(null)
-  const [emptyFields, setEmptyFields] = useState([])
 
   const resetForm = () => {
     setTitle('')
@@ -47,7 +47,7 @@ const WorkoutForm = () => {
           resetForm()
           setEditWorkoutData(null)
           const response = await fetch('/api/workouts')
-          const json = await response.json() // array of objects data
+          const json = await response.json()
           if (response.ok) {
             setWorkouts(json)
           }
@@ -68,7 +68,7 @@ const WorkoutForm = () => {
         if (response.ok) {
           resetForm()
           const response = await fetch('/api/workouts')
-          const json = await response.json() // array of objects data
+          const json = await response.json()
           if (response.ok) {
             setWorkouts(json)
           }
@@ -81,7 +81,11 @@ const WorkoutForm = () => {
 
   return (
     <form className='create' onSubmit={handleSubmit}>
-      <h3>Add a New Workout</h3>
+      {editWorkoutData ? (
+        <h3>Edit Your Workout</h3>
+      ) : (
+        <h3>Add a New Workout</h3>
+      )}
       <label>Exercise Title:</label>
 
       <input

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import useWorkoutsContext from '../hooks/useWorkoutsContext'
+import { useContext } from 'react'
+import { WorkoutsContext } from '../context/WorkoutContext'
 import WorkoutDetails from '../components/WorkoutDetails'
 import WorkoutForm from '../components/WorkoutForm'
 
 const Home = () => {
-  const { workouts, setWorkouts } = useWorkoutsContext()
+  const { workouts, setWorkouts } = useContext(WorkoutsContext)
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -20,7 +21,7 @@ const Home = () => {
     }
 
     fetchWorkouts()
-  }, [])
+  })
 
   return (
     <div className='home'>

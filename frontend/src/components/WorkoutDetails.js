@@ -1,9 +1,10 @@
 import React from 'react'
-import useWorkoutsContext from '../hooks/useWorkoutsContext'
+import { useContext } from 'react'
+import { WorkoutsContext } from '../context/WorkoutContext'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const WorkoutDetails = ({ workout }) => {
-  const { setWorkouts, setEditWorkoutData } = useWorkoutsContext()
+  const { setWorkouts, setEditWorkoutData } = useContext(WorkoutsContext)
 
   const handleDelete = async () => {
     try {

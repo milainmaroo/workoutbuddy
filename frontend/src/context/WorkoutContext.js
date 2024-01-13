@@ -4,7 +4,6 @@ export const WorkoutsContext = createContext(null)
 
 const WorkoutsContextProvider = (props) => {
   const [workouts, setWorkouts] = useState([])
-
   const [editWorkoutData, setEditWorkoutData] = useState(null)
 
   return (
